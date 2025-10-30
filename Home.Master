@@ -1,0 +1,33 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Home.master.cs" Inherits="ComplianceManager.Home" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="stylesheet" type="text/css" href="Content/Master.css" />
+    
+</head>
+<body>
+    <form id="form1" runat="server">
+        <!-- Header -->
+        <div class="header">
+            <asp:Image ID="imgLogo" runat="server" CssClass="logo"
+                ImageUrl="Image/Logo/delhi-golf-course-logo.png" AlternateText="Company Logo" />
+        </div>
+        <div class="container-login">
+            <!-- Main Content -->
+            <div class="main-content-login">
+           <asp:Label ID="lblErrorMessage" runat="server" CssClass="error-message" Visible="false"></asp:Label>
+                <asp:ContentPlaceHolder ID="cntPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+        <div class="footer">
+            <span>© 2025 i-genNext</span>
+        </div>
+    </form>
+
+</body>
+</html>
+

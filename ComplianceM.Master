@@ -1,0 +1,92 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ComplianceM.master.cs" Inherits="ComplianceManager.ComplianceM" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>Compliance Manager</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="stylesheet" type="text/css" href="Content/Master.css" />
+</head>
+<body>
+    <form id="form1" runat="server" enctype="multipart/form-data">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div class="header">
+            <asp:Image ID="imgLogo" runat="server" CssClass="logo"
+                ImageUrl="Image/Logo/delhi-golf-course-logo.png" AlternateText="Company Logo" />
+
+            <div class="header-icons">
+                <asp:LinkButton ID="lnkMail" runat="server" CssClass="icon-mail" ToolTip="Mail" OnClick="lnkMail_Click"></asp:LinkButton>
+                <asp:LinkButton ID="lnkNotifications" runat="server" CssClass="icon-bell" ToolTip="Notifications" OnClick="lnkNotifications_Click">
+                    <asp:Label ID="lblNotificationCount" runat="server" CssClass="notification-badge" Visible="false"></asp:Label>
+                </asp:LinkButton>
+                <asp:LinkButton ID="lnkUser" runat="server" CssClass="icon-user" ToolTip="User Profile" OnClick="lnkUser_Click"></asp:LinkButton>
+            </div>
+        </div>
+        <div class="container">
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <button type="button" class="toggle-btn" onclick="toggleSidebar()">☰</button>
+                <asp:Label ID="lblUsername" runat="server" CssClass="username"></asp:Label>
+                <asp:PlaceHolder ID="phMenu" runat="server"></asp:PlaceHolder>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <asp:Label ID="lblErrorMessage" runat="server" CssClass="error-message" Visible="false"></asp:Label>
+                <asp:UpdatePanel ID="upMainContent" runat="server" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <asp:ContentPlaceHolder ID="cntPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="lnkMail" EventName="Click" />
+                        <asp:AsyncPostBackTrigger ControlID="lnkNotifications" EventName="Click" />
+                        <asp:AsyncPostBackTrigger ControlID="lnkUser" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span>© 2025 i-genNext</span>
+        </div>
+    </form>
+    <!-- JavaScript for sidebar toggle -->
+    <script type="text/javascript">
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('expanded');
+        }
+        function toggleSubmenu(menuId) {
+            // Get the submenu element
+            var submenu = document.getElementById('submenu_' + menuId);
+            if (submenu) {
+                // Check if the submenu is currently visible
+                var isVisible = submenu.classList.contains('visible');
+
+                // Collapse all submenus and remove expanded class from all parent li elements
+                var allSubmenus = document.getElementsByClassName('submenu');
+                var allLis = document.getElementsByClassName('menu')[0].getElementsByTagName('li');
+                for (var i = 0; i < allSubmenus.length; i++) {
+                    allSubmenus[i].classList.remove('visible');
+                }
+                for (var j = 0; j < allLis.length; j++) {
+                    allLis[j].classList.remove('expanded');
+                }
+
+                // Toggle the clicked submenu based on its current state
+                if (!isVisible) {
+                    submenu.classList.add('visible');
+                    var parentLi = submenu.parentElement;
+                    parentLi.classList.add('expanded');
+                }
+            }
+        }
+   
+        function signOut() {
+            // Call server-side sign-out via postback
+            __doPostBack('ctl00$SignOutLink', '');
+            return false; // Prevent immediate navigation
+        }
+    </script>
+</body>
+</html>
